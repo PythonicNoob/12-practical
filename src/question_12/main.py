@@ -32,3 +32,43 @@ try:
                 pickle.dump(data, f)
 except EOFError:
     print("")
+
+
+
+###
+# Alt
+###
+
+with open("emp2.dat", "wb") as f:
+    data = [{"empNo": randint(100, 999),
+                  "ename": choice(names),
+                  "Salary": randint(10000, 99999)}
+                for i in range(9)]
+    data.insert(0,{"empNo":123, "ename": "Ajay", "salary":5000})
+    for entry in data:
+        pickle.dump(entry, f)
+
+
+with open("emp2.dat", "rb+") as f:
+    while True:
+        try:
+            rpos = f.tell()
+            print(rpos)
+            data = pickle.load(f)
+            print(data)
+            if data["empNo"] == 123:
+                data["salary"] += 5000
+                f.seek(rpos)
+                pickle.dump(data, f)
+                break
+        except EOFError:
+            break
+
+print("processsed")
+with open("emp2.dat", "rb") as f:
+    while True:
+        try:
+            data = pickle.load(f)
+            print(data)
+        except EOFError:
+            break
